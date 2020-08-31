@@ -23,8 +23,9 @@
 <link rel="icon" href="https://getbootstrap.com/docs/4.5/assets/img/favicons/favicon.ico">
 <meta name="msapplication-config" content="https://getbootstrap.com/docs/4.5/assets/img/favicons/browserconfig.xml">
 <meta name="theme-color" content="#563d7c">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Custom styles for this template -->
-    <link href="cover.css" rel="stylesheet">
+    <link href="iframes.css" rel="stylesheet">
   </head>
   <body class="text-center">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -34,19 +35,14 @@
       <nav class="nav nav-masthead justify-content-center">
         <a class="nav-link active" href="index.html">Home</a>
         <a class="nav-link" href="documentation.html">Documention</a>
-        <a class="nav-link" href="iframes.html">Contact</a>
+        <a class="nav-link" href="#">Contact</a>
       </nav>
     </div>
   </header>
 
-  <main role="main" class="inner cover">
-    <h1 class="cover-heading">相识(Xiangshi)</h1>
-    <p class="lead">相识是一款专门为中文打造的文本相似度计算器。这是唯一也是最好的中文文本相似度计算器。
-    </p>
-    <p class="lead">
-      <a href="https://pypi.org/project/xiangshi/" class="btn btn-lg btn-secondary" target="_blank">Python Download</a>
-    </p>
-  </main>
+<div style="max-width: 10000em !important;">
+<iframe src="https://pepy.tech/project/xiangshi" title="W3Schools Free Online Web Tutorials"></iframe>
+</div>
 
   <footer class="mastfoot mt-auto">
     <div class="inner">
@@ -54,5 +50,9 @@
     </div>
   </footer>
 </div>
+<script>
+    $("iframe").css('height', (window.outerHeight - 250).toString() + "px");
+    $("iframe").css('width', (window.outerWidth - 250).toString() + "px");
+</script>
 </body>
 </html>
