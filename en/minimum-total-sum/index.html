@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	
+	<title>
+		kiwirafe.blog
+	</title>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+	<div class="nav">
+	<div class="inner">
+		<a href="https://github.com/kiwirafe" target="_blank">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh/">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="Minimum-Total-Sum-Optimal-Selection"><a href="#Minimum-Total-Sum-Optimal-Selection" class="headerlink" title="Minimum Total Sum - Optimal Selection"></a>Minimum Total Sum - Optimal Selection</h1><p>While reading <em>Competitive Programmer’s Handbook</em>, I have encountered a problem that combines Dynamic Programming and Bit Masking.</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h3><p>Consider the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Days</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Product 1</td>
+<td>6</td>
+<td>9</td>
+<td>5</td>
+<td>2</td>
+<td>8</td>
+<td>9</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Product 2</td>
+<td>8</td>
+<td>2</td>
+<td>6</td>
+<td>2</td>
+<td>7</td>
+<td>5</td>
+<td>7</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Product 3</td>
+<td>5</td>
+<td>3</td>
+<td>9</td>
+<td>7</td>
+<td>3</td>
+<td>5</td>
+<td>1</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>The input would be as follows:</p>
+<pre><code class="text">Input:
+3 8
+6 9 5 2 8 9 1 6
+8 2 6 2 7 5 7 2
+5 3 9 7 3 5 1 4
+Output:
+5
+</code></pre>
+<h2 id="Sample-C-Code"><a href="#Sample-C-Code" class="headerlink" title="Sample C++ Code"></a>Sample C++ Code</h2><pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() &#123;
+    int n, k;
+    cin &gt;&gt; k &gt;&gt; n;
+    int price[k][n];
+    int total[1 &lt;&lt; k][n];
+
+    for (int i = 0; i &lt; k; i++)
+        for (int j = 0; j &lt; n; j++)
+            cin &gt;&gt; price[i][j];
+
+    for (int s = 0; s &lt; (1 &lt;&lt; k); s++)
+        for (int x = 0; x &lt; k; x++)
+            if (s &amp; (1 &lt;&lt; x))
+                total[s][0] = price[x][0];
+
+    for (int d = 1; d &lt; n; d++) &#123;
+        for (int s = 0; s &lt; (1 &lt;&lt; k); s++) &#123;
+            total[s][d] = total[s][d - 1];
+            for (int x = 0; x &lt; k; x++) &#123;
+                if (s &amp; (1 &lt;&lt; x)) &#123;
+                    total[s][d] = min(total[s][d], total[s ^ (1 &lt;&lt; x)][d - 1] + price[x][d]);
+                    break;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    cout &lt;&lt; total[(1 &lt;&lt; k) - 1][n - 1] &lt;&lt; endl;
+&#125;
+</code></pre>
+
+</div>
+	</div>
+</body>
+
+</html>

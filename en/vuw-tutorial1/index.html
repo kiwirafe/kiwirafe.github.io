@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	
+	<title>
+		kiwirafe.blog
+	</title>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+	<div class="nav">
+	<div class="inner">
+		<a href="https://github.com/kiwirafe" target="_blank">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh/">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="Using-VSCode-Instead-of-BlueJ-VUW-ECS"><a href="#Using-VSCode-Instead-of-BlueJ-VUW-ECS" class="headerlink" title="Using VSCode Instead of BlueJ - VUW ECS"></a>Using VSCode Instead of BlueJ - VUW ECS</h1><p>Students taking COMP102 at Victoria University of Wellington (VUW) are recommended to use BlueJ for Java programming. However some students may want to use their own IDE, such as VSCode. Hence, this tutorial guides you through the steps of using VSCode to complete COMP102 assignments. </p>
+<p>Note: Currently this tutorial is for Windows only. </p>
+<h2 id="1-Install-Java"><a href="#1-Install-Java" class="headerlink" title="1. Install Java"></a>1. Install Java</h2><p>The first part is to install Java. Up to 2024, COMP102 is using Java 8. Here is the link to install Java 8: <a target="_blank" rel="noopener" href="https://www.java.com/download/ie_manual.jsp">https://www.java.com/download/ie_manual.jsp</a>. </p>
+<p>Click on the execution file and follow the installation steps. If you have chosen a different location to install, please remember this location, as we are going to use that later.<br><img src="https://i.postimg.cc/L4D4Wpbh/image.png" alt="image.png"></p>
+<p>However, this is not enough. The second part is to add Java to our PATH, so that we can use the <code>java</code> command line wherever we want. </p>
+<p>Step 1: Check the location of the “java.exe” file. Normally it is under “C:\Program Files\Java\jdk-21\bin”. If you are unsure, you can do a search in Windows Files.</p>
+<p>Step 2: Click on “Search” or press Windows key and type in “PATH”. You should see “Edit system environment variables” as an option. Choose that option, and you should see the “System Properties” panel pop up. Click on the Environment Variables” button at the bottom right corner. You should then see a second panel with a list of variables. Now <strong>double click</strong> on the “PATH” variable, and you should see a third panel with a list of PATHs. Finally, click on the “New” button. </p>
+<p>The following image shows Step 2:<br><img src="https://i.postimg.cc/DfGf2G0J/Screenshot-2024-04-25-182204.jpg" alt="Screenshot-2024-04-25-182204.jpg"></p>
+<p>Step 3: Input the location of the “java.exe” file from Step 1. Click on “OK” <strong>three times</strong> (on three different panels).</p>
+<p>Step 4: Reboot the computer.</p>
+<p>Step 5: Create a simple Java file named as test.java and copy the following code into the file. </p>
+<pre><code class="java">class test &#123;
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello World!&quot;); 
+    &#125;
+&#125;
+</code></pre>
+<p>Step 6: Open terminal from the location of the Java file. In VSCode you can do this with Control + `. Now run <code>java test.java</code>. You should see “Hello World!” being printed from terminal. This means that you have installed Java successfully!</p>
+<p><img src="https://i.postimg.cc/FsgLH8zL/image.png" alt="image.png"></p>
+<h2 id="Install-ECS100-Library"><a href="#Install-ECS100-Library" class="headerlink" title="Install ECS100 Library"></a>Install ECS100 Library</h2><p>Now we have to install the ECS100 library provided by VUW ECS in order to complete the COMP102 assignments. The first part is to install the library. Here is the link to install the library: <a target="_blank" rel="noopener" href="https://ecs.wgtn.ac.nz/foswiki/pub/Courses/COMP102_2024T1/JavaResources/ecs100.jar">https://ecs.wgtn.ac.nz/foswiki/pub/Courses/COMP102_2024T1&#x2F;JavaResources&#x2F;ecs100.jar</a>.</p>
+<p>The second part is to use the .jar file. </p>
+<p>Step 1: Place the .jar file into the same folder as the test.java file you have used in the previous section. </p>
+<p>Step 2: Copy the following code into the test.java file.</p>
+<pre><code class="java">import ecs100.*;
+
+class test &#123;
+    public static void main(String[] args) &#123;
+        UI.setFontSize(20);
+        UI.drawString(&quot;Hello World!&quot;, 100, 100);    
+    &#125;
+&#125;
+</code></pre>
+<p>Step 3: Open the terminal and run <code>java -cp &quot;ecs100.jar&quot; test.java</code>. You should see “Hello World!” printed on a UI panel. This means you have installed the library successfully!</p>
+<p>Future on, you can use the command <code>java -cp &quot;ecs100.jar&quot; &#123;filename&#125;.java</code> to run you Java files. However, we can omit the <code>-cp &quot;ecs100.jar&quot;</code> with the following steps. Note that this is <strong>not recommended in large projects</strong>, where we are dealing with multiple Java files and libraries. However in this case we can use this trick to save us some effort when working with a single Java file. </p>
+<p>Step 4: Copy the “.jar” file into somewhere that you won’t accidentally delete. For example, I have put it in “C:\Program Files\Java\jdk-21\lib” (this is where standard Java libraries are located). </p>
+<p>Step 5: Repeat Step 2 in Section 1 (ie. Search “PATH” and choose the “Edit system environment variables” option. Then click on the Environment Variables” button at the bottom right corner). Now, instead of double clicking “PATH”, click on the “New…” button in the middle. You should see a new panel pop up. Input “CLASSPATH” as the variable name and <code>.;C:\Program Files\Java\jdk-21\lib\ecs100.jar</code> as the variable value.<br>Note that if you have a different path from mine, then use <code>.;&#123;Your path to the file&#125;</code> as the variable value.</p>
+<p>Finally, click on “OK” three times.</p>
+<p><img src="https://i.postimg.cc/50wj0Wrp/Screenshot-2024-04-26-140939.jpg" alt="Screenshot-2024-04-26-140939.jpg"></p>
+<p>Step 6: Reboot the computer.</p>
+<p>Step 7: Now run the test.java file with this command: <code>java test.java</code>. You should see it working as in Step 3. However, we have omitted the -cp part!</p>
+<h2 id="Futher-Notes"><a href="#Futher-Notes" class="headerlink" title="Futher Notes"></a>Futher Notes</h2><p>Things get more complicated when you are dealing with multiple Java files. It turns out that we have to compile all the files first before running. Assume you have the two classes from file1.java and file2.java that you have used in main.java, you would use the following command:<br><code>javac file1.java file2.java main.java; java -cp &quot;.;%CLASSPATH%&quot; main.java</code></p>
+<p>If you have done Step 5-7 in section 2, you can omit the -cp part and use the following command:<br><code>javac file1.java file2.java main.java; java -cp main.java</code></p>
+<p>Otherwise, consider using <a target="_blank" rel="noopener" href="https://ant.apache.org/">Ant</a> or <a target="_blank" rel="noopener" href="https://maven.apache.org/">Maven</a> which are similar to Makefiles.</p>
+<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2396493/what-is-a-classpath-and-how-do-i-set-it">https://stackoverflow.com/questions/2396493/what-is-a-classpath-and-how-do-i-set-it</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/tutorial/essential/environment/paths.html">https://docs.oracle.com/javase/tutorial/essential/environment/paths.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html">https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html</a></li>
+</ul>
+
+</div>
+	</div>
+</body>
+
+</html>

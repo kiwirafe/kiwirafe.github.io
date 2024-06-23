@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	
+	<title>
+		kiwirafe.blog
+	</title>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+	<div class="nav">
+	<div class="inner">
+		<a href="https://github.com/kiwirafe" target="_blank">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh/">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="Mahjong-Hands-NZIC-2023-Round-3-Tutorial"><a href="#Mahjong-Hands-NZIC-2023-Round-3-Tutorial" class="headerlink" title="Mahjong Hands - NZIC 2023 Round 3 Tutorial"></a>Mahjong Hands - NZIC 2023 Round 3 Tutorial</h1><p>This problem comes from New Zealand Olympiad in Informatics (NZOI) 2023 Round 3. For the problem statement refer to here: <a target="_blank" rel="noopener" href="https://train.nzoi.org.nz/problems/1309">Mahjong Hands</a>.</p>
+<p>I assume there are several different approaches toward this problem, but in this blog I will just describe my own solution.</p>
+<h2 id="1-Algorithm"><a href="#1-Algorithm" class="headerlink" title="1. Algorithm"></a>1. Algorithm</h2><ol>
+<li><p>We input the number of pins, bamboos and characters, and we store these numbers in an array (<code>nums</code>).</p>
+</li>
+<li><p>We loop through each type of pins (pins, bamboos or characters).</p>
+</li>
+<li><p>We input the tiles of this type, and we store these tiles in an array (<code>tiles</code>) of size 9. For example, each time we get a tile of 2, we increment <code>tiles[1]</code> by 1; each time we get a tile of 5, we increment <code>tiles[4]</code> by 1.</p>
+</li>
+<li><p>We check if the tiles are SIMPLE or not.</p>
+</li>
+<li><p>Then, we loop from 1 to 9:</p>
+<ol>
+<li>We calculate the maximum number of STRAIGHTs we can have.</li>
+<li>We minus the number of STRAIGHTs.<br> For example, if we have PINS: 1, 2, 3, 1, 2, 3.<br> Then we would have the <code>tiles</code> as <code>[2, 2, 2]</code>.<br> This means the the maximum of STRAIGHTs we can have is 2.<br> We minus 2 from <code>tiles[0]</code>, <code>tiles[1]</code> and <code>tiles[2]</code>.<br> Hence <code>tiles</code> becomes <code>[0, 0, 0]</code>.</li>
+<li>We calculate the maximum number of SETs we can have.</li>
+<li>We minus the number of SETs.<br> This step can be simplified by just doing <code>tiles[i] % 3</code>.</li>
+<li>After the above process, we check if <code>tiles[i]</code> is 0 or 2.</li>
+</ol>
+</li>
+<li><p>If the number of tiles in this SUIT is a multiple of 3, this means that the identical pair is not included in this set. Thus all the tiles contribute to STRAIGHTs or SETs, hence <code>tiles</code> should be filled with zeros.<br>Otherwise, we have the identical pair in this set. This means we have a <code>tiles[i]</code> with 2 tiles, the rest filled with zeros.<br>If <code>tiles</code> meet the above conditions then the set is COMPLETE, otherwise no.</p>
+</li>
+<li><p>Return the state.</p>
+</li>
+</ol>
+<p>I believe the key to this problem is to calculate the STRAIGHTS before the SETS, because 3 tiles with the same number can contribute to a STRAIGHT plus an identical pair. </p>
+<h2 id="2-C-Solution"><a href="#2-C-Solution" class="headerlink" title="2. C++ Solution"></a>2. C++ Solution</h2><pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() &#123;
+    int nums[3];
+    cin &gt;&gt; nums[0] &gt;&gt; nums[1] &gt;&gt; nums[2];
+
+    bool simple = true, complete = true;
+
+    int tile;
+    for (int t = 0; t &lt; 3; t++) &#123;
+        int tiles[9] = &#123; 0 &#125;;
+        for (int i = 0; i &lt; nums[t]; i++) &#123;
+            cin &gt;&gt; tile;
+            tiles[tile - 1] += 1;
+        &#125;
+
+        if (tiles[0] or tiles[8])
+            simple = false;
+            
+        int zeros = 0, twos = 0;
+        for (int i = 0; i &lt; 9; i++) &#123;
+            if (i &lt; 7) &#123;
+                int minus = min(&#123;tiles[i], tiles[i + 1], tiles[i + 2]&#125;);
+                tiles[i] -= minus, tiles[i + 1] -= minus, tiles[i + 2] -= minus;
+            &#125;
+            tiles[i] = tiles[i] % 3;
+            
+            if (tiles[i] == 0)
+                zeros++;
+            else if (tiles[i] == 2)
+                twos++;
+        &#125;
+        
+        if (!(nums[t] % 3 == 0 and zeros == 9 or
+              nums[t] % 3 == 2 and twos == 1 and zeros == 8))
+            complete = false;
+    &#125;
+
+    if (simple and complete) 
+        cout &lt;&lt; &quot;WIN&quot; &lt;&lt; endl;
+    else if (simple)
+        cout &lt;&lt; &quot;SIMPLE&quot; &lt;&lt; endl;
+    else if (complete)
+        cout &lt;&lt; &quot;COMPLETE&quot; &lt;&lt; endl;
+    else 
+        cout &lt;&lt; &quot;SAD&quot;;
+
+    return 0;  
+&#125;
+</code></pre>
+
+</div>
+	</div>
+</body>
+
+</html>

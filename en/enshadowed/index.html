@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	
+	<title>
+		kiwirafe.blog
+	</title>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+	<div class="nav">
+	<div class="inner">
+		<a href="https://github.com/kiwirafe" target="_blank">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh/">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="Enshadowed-NZIC-2023-Round-3-Tutorial"><a href="#Enshadowed-NZIC-2023-Round-3-Tutorial" class="headerlink" title="Enshadowed - NZIC 2023 Round 3 Tutorial"></a>Enshadowed - NZIC 2023 Round 3 Tutorial</h1><p>This problem comes from New Zealand Olympiad in Informatics (NZOI) 2023 Round 3. For the problem statement refer to here: <a target="_blank" rel="noopener" href="https://train.nzoi.org.nz/problems/1306">Enshadowed</a>.</p>
+<p>This problem requires an understanding of Dijkstra’s algorithm plus some extra mathematical knowledge. I was quite surprised about this because this problem was the 3rd question in the round, and usually question 3 is more about standard algorithms (Greedy, DP, etc). Now let’s walk through this problem in detail.</p>
+<h2 id="1-Algorithm"><a href="#1-Algorithm" class="headerlink" title="1. Algorithm"></a>1. Algorithm</h2><h3 id="1-1-Circles"><a href="#1-1-Circles" class="headerlink" title="1.1 Circles"></a>1.1 Circles</h3><p>The first concept to understand is that it is always optimal to walk to the centre of the circle, or not walk in the circle at all. </p>
+<p><a target="_blank" rel="noopener" href="https://postimg.cc/VdL3sNc6"><img src="https://i.postimg.cc/qM80Ltb8/Screenshot-2023-12-22-172511-1.jpg" alt="Screenshot-2023-12-22-172511-1.jpg"></a></p>
+<p>Let us consider the graph above: Points A and B are random points out of Circle C; C is the centre of the circle; Point E is somewhere in the circle. Since distance that we walk in the circle doesn’t matter, we only have to prove that AG and AE, and BH &lt; BF.</p>
+<pre><code class="plaintext">Proof
+Since AE + CE &gt; AC (Sides of a triangle)
+Hence AE + CE &gt; AG + CG
+Hence AE &gt; AG (CG = CE = Radius)
+Similarly, BH &lt; BF
+</code></pre>
+<p>Thus we have proven that it is always optimal to walk to the centre of the circle. However, we might not have to walk into the circles at all. This is when AB &lt; AG + BH. Therefore, as I have mentioned at the start of this section, we either walk to the center of the circle, or not walk into the circle at all.</p>
+<h3 id="1-2-Dijkstra’s-Algorithm"><a href="#1-2-Dijkstra’s-Algorithm" class="headerlink" title="1.2 Dijkstra’s Algorithm"></a>1.2 Dijkstra’s Algorithm</h3><p>However, there are multiple trees that we can walk to. Which trees should we walk? Which order should we walk? Should we walk into the trees at all? The answer to these questions is Dijkstra’s Algorithm (which I assume you are familiar with).</p>
+<p><img src="https://i.postimg.cc/VNMnDWtY/Screenshot-2023-12-22-175250.jpg" alt="Screenshot-2023-12-22-175250.jpg"></p>
+<p>Now let’s consider the second example from the problem statement (shown in image above). The most optimal solution is <code>A-&gt;C-&gt;D-&gt;B</code>. We treat the startig point(Roxy’s current position, A) and the ending point(her destination, B) along with every circle’s center(C, D, E) as a node, and their paths between each other as edges. The weights of the edges are the distance between the nodes, minus the radius of the circles. Then we just simply run Dijkstra’s Algorithm to find the shortest path from A to B, which is our answer to the problem.</p>
+<p>A few implementation tips:</p>
+<ol>
+<li>Use priority queue to implement Dijkstra’s Algorithm to keep time complexity as O(n + mlogm).</li>
+<li>Append the starting point and the ending point as nodes with radius 0.</li>
+</ol>
+<h3 id="1-3-Time-Complexity"><a href="#1-3-Time-Complexity" class="headerlink" title="1.3 Time Complexity"></a>1.3 Time Complexity</h3><p>The construction of the graph is $O(n^2)$, as we loop through each pair of nodes to find their distances between them.<br>The Dijkstra’s Algorithm is $O(n + n^2 \log n)$, since the number of edges is:<br>$$\frac{(n - 1)(1 + (n - 1))}{2} \approx n^2$$</p>
+<p>Hence the overall Time Complexity is $O(n^2 \log n)$.</p>
+<h3 id="1-4-Conclusion"><a href="#1-4-Conclusion" class="headerlink" title="1.4 Conclusion"></a>1.4 Conclusion</h3><p>Personally I think this problem is quite hard, which I have spent a few days trying to figure out a solution. I started with a greedy approach, but when I began the Shortest Path direction, I came together with an answer quite quickly. </p>
+<h2 id="2-C-Solution"><a href="#2-C-Solution" class="headerlink" title="2. C++ Solution"></a>2. C++ Solution</h2><pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+#define euclid(x1, x2, y1, y2) sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2))
+
+// Dijkstra&#39;s Algorithm
+// Be cautious to use double since the problem can have decimals.
+double dijkstra(int source, int target, vector&lt;pair&lt;int, double&gt;&gt; *adj, int n) &#123;
+    double distance[n];
+    bool processed[n];
+    for(int i = 0; i &lt; n; i++)&#123;
+        distance[i] = INT_MAX;
+        processed[i] = false;
+    &#125;
+
+    priority_queue&lt;pair&lt;double, int&gt;&gt; q;
+    distance[source] = 0;
+    q.push(&#123;0, source&#125;);
+    while(!q.empty()) &#123;
+        int a = q.top().second; q.pop();
+        if(processed[a]) continue;
+        processed[a] = true;
+        for(auto u : adj[a]) &#123;
+            int b = u.first; double w = u.second;
+            if (distance[a] + w &lt; distance[b]) &#123;
+                distance[b] = distance[a] + w;
+                q.push(&#123;-distance[b], b&#125;);
+            &#125;
+        &#125;
+    &#125;
+
+    return distance[target];
+&#125;
+
+int main() &#123;
+    double x1, y1, r1, x2, y2, r2, xq, yq, rq;
+    int N;
+
+    cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;
+    cin &gt;&gt; N;
+
+    vector&lt;tuple&lt;double, double, double&gt;&gt; circles;
+    for (int i = 0; i &lt; N; i++) &#123;
+        cin &gt;&gt; xq &gt;&gt; yq &gt;&gt; rq;
+        circles.push_back(&#123;xq, yq, rq&#125;);
+    &#125;
+
+    // Add the the starting and ending nodes.
+    circles.push_back(&#123;x1, y1, 0&#125;);
+    circles.push_back(&#123;x2, y2, 0&#125;);
+
+    // Calculate the distance between the nodes.
+    vector&lt;pair&lt;int, double&gt;&gt; adj[N + 2];
+    for (int i = 0; i &lt; N + 2; i++) &#123;
+        for (int j = 0; j &lt; N + 2; j++) &#123;
+            tie(x1, y1, r1) = circles[i];
+            tie(x2, y2, r2) = circles[j];
+            // Euclid is defined earlier.
+            adj[i].push_back(&#123;j, max(euclid(x1, x2, y1, y2) - r1 - r2, 0.0)&#125;);
+        &#125;
+    &#125;
+
+    double distance = dijkstra(N, N + 1, adj, N + 2);
+
+    // Return 6dp due to problem requirement.
+    printf(&quot;%.6f\n&quot;, distance);
+    
+&#125;
+</code></pre>
+
+</div>
+	</div>
+</body>
+
+</html>
