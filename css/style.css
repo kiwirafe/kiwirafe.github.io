@@ -191,6 +191,8 @@ body {
   font-family: monospace;
   overflow-wrap: break-word !important;
   text-wrap: wrap !important;
+  whitespace: pre-wrap !important;
+  word-break: break-all !important;
   border-radius: 6px;
   color: #1f2328;
   background-color: #f6f8fa;
