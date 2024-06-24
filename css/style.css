@@ -177,10 +177,6 @@ body {
   padding: 0;
   margin: 0;
   background-color: transparent;
-  overflow-wrap: break-word !important;
-  text-wrap: wrap !important;
-  whitespace: pre-wrap !important;
-  word-break: break-all !important;
   border: 0;
 }
 .post table th,
@@ -192,10 +188,8 @@ body {
 .post pre {
   line-height: 1.35;
   font-family: monospace;
-  overflow-wrap: break-word !important;
-  text-wrap: wrap !important;
-  whitespace: pre-wrap !important;
-  word-break: break-all !important;
+  text-wrap: wrap;
+  white-space: pre-wrap;
   border-radius: 6px;
   color: #1f2328;
   background-color: #f6f8fa;
