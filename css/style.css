@@ -177,6 +177,10 @@ body {
   padding: 0;
   margin: 0;
   background-color: transparent;
+  overflow-wrap: break-word !important;
+  text-wrap: wrap !important;
+  whitespace: pre-wrap !important;
+  word-break: break-all !important;
   border: 0;
 }
 .post table th,
