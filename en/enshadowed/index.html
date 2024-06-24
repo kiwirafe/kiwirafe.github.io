@@ -7,13 +7,28 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<script>hljs.highlightAll();</script>
+
+	
+		<script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                },
+                options: {
+                    lazyMargin: "200px",
+                },
+                loader: {load: ['ui/lazy']}
+
+            };
+        </script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	
+
 	
 <link rel="stylesheet" href="/css/style.css">
 
-	
-	<title>
-		kiwirafe.blog
-	</title>
+	<title>kiwirafe.blog</title>
 <meta name="generator" content="Hexo 7.2.0"></head>
 
 <body>
@@ -36,7 +51,7 @@
 	<h1 id="Enshadowed-NZIC-2023-Round-3-Tutorial"><a href="#Enshadowed-NZIC-2023-Round-3-Tutorial" class="headerlink" title="Enshadowed - NZIC 2023 Round 3 Tutorial"></a>Enshadowed - NZIC 2023 Round 3 Tutorial</h1><p>This problem comes from New Zealand Olympiad in Informatics (NZOI) 2023 Round 3. For the problem statement refer to here: <a target="_blank" rel="noopener" href="https://train.nzoi.org.nz/problems/1306">Enshadowed</a>.</p>
 <p>This problem requires an understanding of Dijkstra’s algorithm plus some extra mathematical knowledge. I was quite surprised about this because this problem was the 3rd question in the round, and usually question 3 is more about standard algorithms (Greedy, DP, etc). Now let’s walk through this problem in detail.</p>
 <h2 id="1-Algorithm"><a href="#1-Algorithm" class="headerlink" title="1. Algorithm"></a>1. Algorithm</h2><h3 id="1-1-Circles"><a href="#1-1-Circles" class="headerlink" title="1.1 Circles"></a>1.1 Circles</h3><p>The first concept to understand is that it is always optimal to walk to the centre of the circle, or not walk in the circle at all. </p>
-<p><a target="_blank" rel="noopener" href="https://postimg.cc/VdL3sNc6"><img src="https://i.postimg.cc/qM80Ltb8/Screenshot-2023-12-22-172511-1.jpg" alt="Screenshot-2023-12-22-172511-1.jpg"></a></p>
+<p><img src="https://i.postimg.cc/qM80Ltb8/Screenshot-2023-12-22-172511-1.jpg" alt="Screenshot-2023-12-22-172511-1.jpg"></p>
 <p>Let us consider the graph above: Points A and B are random points out of Circle C; C is the centre of the circle; Point E is somewhere in the circle. Since distance that we walk in the circle doesn’t matter, we only have to prove that AG and AE, and BH &lt; BF.</p>
 <pre><code class="plaintext">Proof
 Since AE + CE &gt; AC (Sides of a triangle)
