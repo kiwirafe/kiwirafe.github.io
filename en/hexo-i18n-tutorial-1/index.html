@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+
+	
+
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	<title>kiwirafe.blog</title>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+	<div class="head-nav">
+	<div class="inner">
+		<a href="/">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="A-Comprehensive-Solution-for-Hexo-i18n-Tutorial-1"><a href="#A-Comprehensive-Solution-for-Hexo-i18n-Tutorial-1" class="headerlink" title="A Comprehensive Solution for Hexo i18n - Tutorial 1"></a>A Comprehensive Solution for Hexo i18n - Tutorial 1</h1><p>It is quite difficult to create a multilingual (i18n) site for Hexo. However, in the following two blogs I will provide you with a comprehensive solution for internationalization. The first tutorial creates a blog with a provided theme. The second tutorial explains how to creates a blog with a custom theme of your choice. You can jump straight to <a href="../hexo-i18n-tutorial-2">Tutorial 2</a> if you want a customized theme. </p>
+<p>This tutorial will guide you through creating an i18n Hexo blog using the “world” theme. The “world” theme is a theme devoted to i18n - meaning it fully supports a multilingual  site. You can find a demo <a target="_blank" rel="noopener" href="https://kiwirafe.github.io/hexo-theme-world/">here</a>.</p>
+<h2 id="Step-1-Installation"><a href="#Step-1-Installation" class="headerlink" title="Step 1 - Installation"></a>Step 1 - Installation</h2><p>The first step is to install the required plugin and theme. Navigate to your blog’s folder and execute the following commands:</p>
+<pre><code class="bash">$ npm uninstall hexo-generator-index hexo-generator-archive hexo-generator-category hexo-generator-tag
+$ npm install hexo-generator-plus --save
+$ git clone https://github.com/kiwirafe/hexo-theme-world.git themes/world
+</code></pre>
+<h2 id="Step-2-Setup"><a href="#Step-2-Setup" class="headerlink" title="Step 2 - Setup"></a>Step 2 - Setup</h2><p>Change the theme to world in _config.yml:</p>
+<pre><code>theme: world
+</code></pre>
+<p>and turn off syntax highlighter (the theme uses customized CDN instead):</p>
+<pre><code>syntax_highlighter: 
+</code></pre>
+<p>If your site contains only one language, there’s no additional actions required. You can skip Step 3 and move onto Step 4.</p>
+<h2 id="Step-3-Internationalization"><a href="#Step-3-Internationalization" class="headerlink" title="Step 3 - Internationalization"></a>Step 3 - Internationalization</h2><p>Please follow these steps for internationalization:</p>
+<ol>
+<li>Create a new folder for each language, and put all posts and pages in the corresponding folder. For example:</li>
+</ol>
+<pre><code class="plaintext">sources/
+  en/
+    post1.md
+    post2.md
+  zh/
+    post3.md
+    post4.md
+</code></pre>
+<ol start="2">
+<li><p>Copy the content from <code>theme/world/_config.world.yml</code> into your main <code>_config.yml</code> file. This file is the exact same as the default config file, expect a few changes to support i18n.</p>
+</li>
+<li><p>At the right end of your <code>_config.yml</code> file, change the language settings if needed:</p>
+</li>
+</ol>
+<pre><code class="yml">generator_plus:
+  language: [&#39;first language&#39;, &#39;second language&#39;]
+</code></pre>
+<h2 id="Step-4-Completion"><a href="#Step-4-Completion" class="headerlink" title="Step 4 - Completion"></a>Step 4 - Completion</h2><p>Your blog setup is now complete! Run <code>hexo g &amp;&amp; hexo s</code> to view the results. </p>
+<h3 id="4-1-Writing"><a href="#4-1-Writing" class="headerlink" title="4.1 Writing"></a>4.1 Writing</h3><p>This theme supports categories and categories. All you have to do is add the following to front-matter:</p>
+<pre><code class="yml">category: &quot;My Category&quot;
+tag: &quot;My Tag&quot;
+</code></pre>
+<p>This theme also supports Mathjax:</p>
+<pre><code class="yml">mathjax: true
+</code></pre>
+<h3 id="4-2-Generator-Configuration"><a href="#4-2-Generator-Configuration" class="headerlink" title="4.2 Generator Configuration"></a>4.2 Generator Configuration</h3><p>Here are additional options for generating the website. Add the following code to the end of _config.yml and modify them to suit your needs.</p>
+<pre><code class="yml">generator_plus:
+  pagination_dir: &#39;page&#39;
+
+  index_generator:
+    per_page: 10
+    order_by: -date
+
+  archive_generator:
+    per_page: 10
+    order_by: -date
+
+  category_generator:
+    per_page: 10
+    order_by: -date
+    enable_index_page: false
+
+  tag_generator:
+    per_page: 10
+    order_by: -date
+    enable_index_page: false
+</code></pre>
+<h4 id="Overall-Options"><a href="#Overall-Options" class="headerlink" title="Overall Options:"></a>Overall Options:</h4><ul>
+<li><strong>pagination_dir</strong>: Pagination dir.<ul>
+<li>default: pagination_dir in original config, if not defined then <code>page</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="For-all-generators"><a href="#For-all-generators" class="headerlink" title="For all generators:"></a>For all generators:</h4><ul>
+<li><strong>per_page</strong>: The number of posts&#x2F;categories&#x2F;tags displayed per page.<ul>
+<li>default: <code>10</code>.</li>
+<li><code>0</code> disables pagination</li>
+</ul>
+</li>
+<li><strong>order_by</strong>: The order of posts.<ul>
+<li>default: date descending</li>
+</ul>
+</li>
+</ul>
+<h4 id="For-category-generator-and-tag-generator-only"><a href="#For-category-generator-and-tag-generator-only" class="headerlink" title="For category_generator and tag_generator only:"></a>For <code>category_generator</code> and <code>tag_generator</code> only:</h4><ul>
+<li><strong>enable_index_page</strong>: Whether to generate the index page for categories and categories.<ul>
+<li>default: false</li>
+</ul>
+</li>
+</ul>
+
+</div>
+	</div>
+</body>
+
+</html>
