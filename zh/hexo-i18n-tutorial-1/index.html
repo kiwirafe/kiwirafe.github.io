@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	<title>kiwirafe.blog</title>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+	<div class="head-nav">
+	<div class="inner">
+		<a href="/">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/zh">首页</a>
+				<a href="/zh/archives">归档</a>
+				<a href="/">English</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="使用Hexo搭建中英文双语博客的完整方案-上"><a href="#使用Hexo搭建中英文双语博客的完整方案-上" class="headerlink" title="使用Hexo搭建中英文双语博客的完整方案 - 上"></a>使用Hexo搭建中英文双语博客的完整方案 - 上</h1><p>在用过Hexo的国际化之后，才知道这个功能其实是挂羊头卖狗肉。不仅每个博客都需要标上语言，而且博客本身的列表中各个语言的文章仍然混杂在一起。</p>
+<p>因此，接下来的两篇博客将为大家提供一套完整的国际化解决方案。为了这套方案，我编写了一个主题和一个插件。第一篇博客将使用我编写的主题创建双语言博客。第二篇博客可以使用自定义主题创建双语言博客。如果你想要一个自定义主题的博客，可以直接跳到<a href="../hexo-i18n-tutorial-2">《使用Hexo搭建中英文双语博客的完整方案 - 下》</a>。</p>
+<p>这篇将使用“world”主题创建一个国际化双语言的Hexo博客。Hexo主题“world”是一个专门支持国际化的主题。点击在<a href="https://kiwirafe.github.io/hexo-theme-world/">这里</a>在线演示。</p>
+<h2 id="第一步-安装"><a href="#第一步-安装" class="headerlink" title="第一步 - 安装"></a>第一步 - 安装</h2><p>在你的博客主文件夹执行以下命令：</p>
+<pre><code class="bash">$ npm uninstall hexo-generator-index hexo-generator-archive hexo-generator-category hexo-generator-tag
+$ npm install hexo-generator-plus --save
+$ git clone https://github.com/kiwirafe/hexo-theme-world.git themes/world
+</code></pre>
+<h2 id="第二步：设置"><a href="#第二步：设置" class="headerlink" title="第二步：设置"></a>第二步：设置</h2><p>在<code>_config.yml</code>中将主题更改为 world：</p>
+<pre><code class="yml">theme: world
+</code></pre>
+<p>并关闭语法高亮（该主题使用CDN）：</p>
+<pre><code class="yml">syntax_highlighter: 
+</code></pre>
+<p>如果你的博客只有一种语言，可以跳过第三步。</p>
+<h2 id="第三步：国际化"><a href="#第三步：国际化" class="headerlink" title="第三步：国际化"></a>第三步：国际化</h2><p>请按照以下步骤进行国际化设置：</p>
+<ol>
+<li>为每种语言创建一个文件夹，并将所有文章和页面放入相应的文件夹中。例如：</li>
+</ol>
+<pre><code class="plaintext">sources/
+  _posts/
+    en/
+      post1.md
+      post2.md
+    zh/
+      post3.md
+      post4.md
+</code></pre>
+<ol start="2">
+<li><p>将<code>theme/world/_config.world.yml</code>里的所有内容复制到<code>_config.yml</code>文件中。该文件和Hexo默认的配置文件基本相同，只是做了一些支持国际化的更改。</p>
+</li>
+<li><p>在<code>_config.yml</code>文件的末尾，加上以下的代码。</p>
+</li>
+</ol>
+<pre><code class="yml">generator_plus:
+  language: [&#39;en&#39;, &#39;zh&#39;]
+</code></pre>
+<h2 id="第四步：完成"><a href="#第四步：完成" class="headerlink" title="第四步：完成"></a>第四步：完成</h2><p>国际化的博客现在已经大功告成了！试试运行<code>hexo g &amp;&amp; hexo s</code>查看网站效果。</p>
+<h3 id="4-1-写作"><a href="#4-1-写作" class="headerlink" title="4.1 写作"></a>4.1 写作</h3><p>该主题支持分类和标签：</p>
+<pre><code class="yml">category: &quot;My Category&quot;
+tag: &quot;My Tag&quot;
+</code></pre>
+<p>该主题还支持Mathjax：</p>
+<pre><code class="yml">mathjax: true
+</code></pre>
+<h3 id="4-2-生成器配置"><a href="#4-2-生成器配置" class="headerlink" title="4.2 生成器配置"></a>4.2 生成器配置</h3><p>以下是生成网站的附加选项。请将以下代码合并到<code>generator_plus</code>的设置中（即删除以下代码第一行，并将其拷贝到 <code>generator_plus: language: [&#39;first language&#39;, &#39;second language&#39;]</code> 之后）。</p>
+<pre><code class="yml">generator_plus:
+  pagination_dir: &#39;page&#39;
+
+  index_generator:
+    per_page: 10
+    order_by: -date
+
+  archive_generator:
+    per_page: 10
+    order_by: -date
+
+  category_generator:
+    per_page: 10
+    order_by: -date
+    enable_index_page: false
+
+  tag_generator:
+    per_page: 10
+    order_by: -date
+    enable_index_page: false
+</code></pre>
+<h4 id="总体选项："><a href="#总体选项：" class="headerlink" title="总体选项："></a>总体选项：</h4><ul>
+<li><strong>pagination_dir</strong>: 分页的URL（例如&#x2F;page&#x2F;1）。<ul>
+<li>默认：如果原配置中未定义，则为 <code>page</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="所有生成器的选项："><a href="#所有生成器的选项：" class="headerlink" title="所有生成器的选项："></a>所有生成器的选项：</h4><ul>
+<li><strong>per_page</strong>: 每页显示的文章&#x2F;分类&#x2F;标签数量。<ul>
+<li>默认：<code>10</code>。</li>
+<li><code>0</code> 禁用分页。</li>
+</ul>
+</li>
+<li><strong>order_by</strong>: 文章的排序顺序。<ul>
+<li>默认：日期降序。</li>
+</ul>
+</li>
+</ul>
+<h4 id="仅针对-category-generator-和-tag-generator："><a href="#仅针对-category-generator-和-tag-generator：" class="headerlink" title="仅针对 category_generator 和 tag_generator："></a>仅针对 <code>category_generator</code> 和 <code>tag_generator</code>：</h4><ul>
+<li><strong>enable_index_page</strong>: 是否生成分类和标签的主页。<ul>
+<li>默认：false。</li>
+</ul>
+</li>
+</ul>
+
+</div>
+	</div>
+</body>
+
+</html>

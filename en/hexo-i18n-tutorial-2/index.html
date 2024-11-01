@@ -7,9 +7,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<script>hljs.highlightAll();</script>
-
 	
-
 	
 <link rel="stylesheet" href="/css/style.css">
 
@@ -40,7 +38,7 @@
 $ npm install hexo-generator-plus --save
 $ git clone https://github.com/zchengsite/hexo-theme-oranges.git themes/oranges
 </code></pre>
-<h2 id="Step-2-Setup"><a href="#Step-2-Setup" class="headerlink" title="Step 2 - Setup"></a>Step 2 - Setup</h2><p>Change the theme to world in _config.yml:</p>
+<h2 id="Step-2-Setup"><a href="#Step-2-Setup" class="headerlink" title="Step 2 - Setup"></a>Step 2 - Setup</h2><p>Change the theme to world in <code>_config.yml</code>:</p>
 <pre><code>theme: oranges
 </code></pre>
 <h2 id="Step-3-Internationalization"><a href="#Step-3-Internationalization" class="headerlink" title="Step 3 - Internationalization"></a>Step 3 - Internationalization</h2><p>Please follow these steps for internationalization</p>
@@ -48,15 +46,16 @@ $ git clone https://github.com/zchengsite/hexo-theme-oranges.git themes/oranges
 <li>Create a new folder for each language, and put all posts and pages in the corresponding folder. For example:</li>
 </ol>
 <pre><code class="plaintext">sources/
-  en/
-    post1.md
-    post2.md
-  zh/
-    post3.md
-    post4.md
+  _posts/
+    en/
+      post1.md
+      post2.md
+    zh/
+      post3.md
+      post4.md
 </code></pre>
 <ol start="2">
-<li>Add the following to _config.yml:</li>
+<li>Add the following to <code>_config.yml</code>:</li>
 </ol>
 <pre><code class="yml">generator_plus:
   language: [&#39;first language&#39;, &#39;second language&#39;]
@@ -66,8 +65,8 @@ $ git clone https://github.com/zchengsite/hexo-theme-oranges.git themes/oranges
 <li>Change <code>permalink</code> variable in _config.yml <code>permalink: :lang/&#123;what was here before&#125;</code></li>
 </ol>
 <h2 id="Step-4-Completion"><a href="#Step-4-Completion" class="headerlink" title="Step 4 - Completion"></a>Step 4 - Completion</h2><p>Your blog setup is now complete! Run <code>hexo g &amp;&amp; hexo s</code> to view the results. </p>
-<h3 id="4-1-Optional-Configuration"><a href="#4-1-Optional-Configuration" class="headerlink" title="4.1 Optional Configuration"></a>4.1 Optional Configuration</h3><p>Follow the configuration for the “oranges” theme if you want (click <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">here</a>). </p>
-<h3 id="4-2-Generator-Configuration"><a href="#4-2-Generator-Configuration" class="headerlink" title="4.2 Generator Configuration"></a>4.2 Generator Configuration</h3><p>Here are additional configuration for generating the website. Add the following code to the end of _config.yml and modify them to suit your needs.</p>
+<h3 id="4-1-Theme-Configuration"><a href="#4-1-Theme-Configuration" class="headerlink" title="4.1 Theme Configuration"></a>4.1 Theme Configuration</h3><p>Follow the configuration for the “oranges” theme if you want (click <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">here</a>). </p>
+<h3 id="4-2-Generator-Configuration"><a href="#4-2-Generator-Configuration" class="headerlink" title="4.2 Generator Configuration"></a>4.2 Generator Configuration</h3><p>Here are additional options for generating the website. Merge the following code with the existing <code>generator_plus</code> config (ie. remove the first line, and append it after <code>generator_plus: language: [&#39;first language&#39;, &#39;second language&#39;]</code>).</p>
 <pre><code class="yaml">generator_plus:
   pagination_dir: &#39;page&#39;
 
@@ -90,7 +89,7 @@ $ git clone https://github.com/zchengsite/hexo-theme-oranges.git themes/oranges
     enable_index_page: false
 </code></pre>
 <h4 id="Overall-Options"><a href="#Overall-Options" class="headerlink" title="Overall Options:"></a>Overall Options:</h4><ul>
-<li><strong>pagination_dir</strong>: Pagination dir.<ul>
+<li><strong>pagination_dir</strong>: Pagination url.<ul>
 <li>default: pagination_dir in original config, if not defined then <code>page</code>.</li>
 </ul>
 </li>
