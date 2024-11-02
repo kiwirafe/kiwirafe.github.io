@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
 
 <url>
   <loc>https://kiwirafe.github.io/</loc>
@@ -69,36 +74,31 @@
 <url>
   <loc>https://kiwirafe.github.io/en/vuw-ecs-tutorial-2/</loc>
   <lastmod>2024-11-01T14:02:48+00:00</lastmod>
-  <priority>0.8</priority>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://kiwirafe.github.io/archives/page/2/</loc>
   <lastmod>2024-11-01T14:02:48+00:00</lastmod>
-  <priority>0.8</priority>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://kiwirafe.github.io/zh/archives/</loc>
   <lastmod>2024-11-01T14:02:48+00:00</lastmod>
-  <priority>0.8</priority>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://kiwirafe.github.io/zh/hexo-i18n-tutorial-2/</loc>
   <lastmod>2024-11-01T14:02:48+00:00</lastmod>
-  <priority>0.8</priority>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://kiwirafe.github.io/zh/hexo-i18n-tutorial-1/</loc>
   <lastmod>2024-11-01T14:02:48+00:00</lastmod>
-  <priority>0.8</priority>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://kiwirafe.github.io/zh/longest-increasing-subsequence/</loc>
   <lastmod>2024-11-01T14:02:48+00:00</lastmod>
-  <priority>0.8</priority>
-</url>
-<url>
-  <loc>https://kiwirafe.github.io/hexo-theme-world/</loc>
-  <lastmod>2024-07-14T06:15:37+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
