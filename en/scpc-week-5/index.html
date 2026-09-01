@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	<title>kiwirafe.blog</title>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+	<div class="head-nav">
+	<div class="inner">
+		<a href="/">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="SCPC-Week-5-Tutorial"><a href="#SCPC-Week-5-Tutorial" class="headerlink" title="SCPC Week 5 Tutorial"></a>SCPC Week 5 Tutorial</h1><h3 id="Kavya’s-Flip-Flops"><a href="#Kavya’s-Flip-Flops" class="headerlink" title="Kavya’s Flip Flops"></a>Kavya’s Flip Flops</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2209/problem/A">https://codeforces.com/contest/2209/problem/A</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    ll n, c, k;
+    cin &gt;&gt; n &gt;&gt; c &gt;&gt; k;
+    
+    vector&lt;ll&gt; monsters(n);
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; monsters[i];
+    &#125;
+ 
+    sort(monsters.begin(), monsters.end());
+ 
+    for (int i = 0; i &lt; n; i++) &#123;
+        if (monsters[i] &lt;= c) &#123;
+            int flop = min(k, c - monsters[i]);
+            c += monsters[i] + flop;
+            k -= flop;
+        &#125; else &#123;
+            break;
+        &#125;
+    &#125;
+ 
+    cout &lt;&lt; c &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="Lasers"><a href="#Lasers" class="headerlink" title="Lasers"></a>Lasers</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2148/problem/B">https://codeforces.com/contest/2148/problem/B</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n, m, x, y;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; x &gt;&gt; y;
+ 
+    int temp;
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; temp;
+    &#125;
+ 
+    for (int i = 0; i &lt; m; i++) &#123;
+        cin &gt;&gt; temp;
+    &#125;
+ 
+    cout &lt;&lt; n + m &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="SCPC-zip"><a href="#SCPC-zip" class="headerlink" title="SCPC.zip"></a>SCPC.zip</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2254/problem/B">https://codeforces.com/contest/2254/problem/B</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+    string s;
+    cin &gt;&gt; s;
+ 
+    int ans = 1;
+    int minus = 0;
+    for (int i = 1; i &lt; n; i++) &#123;
+        if (s[i] != s[i - 1]) 
+            ans += 1;
+ 
+        if (i &lt; n - 1 and s[i] != s[i - 1] and s[i] != s[i + 1]) &#123;
+            if (s[i - 1] == s[i + 1])
+                minus = 2;
+            else
+                minus = max(minus, 1);
+        &#125;
+    &#125;
+ 
+    cout &lt;&lt; ans - minus &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="Ryan-and-Arrays"><a href="#Ryan-and-Arrays" class="headerlink" title="Ryan and Arrays"></a>Ryan and Arrays</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1899/problem/C">https://codeforces.com/contest/1899/problem/C</a></p>
+<p>Prefix Sum Solution:</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+    
+    vector&lt;int&gt; nums(n);
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; nums[i];
+    &#125;
+ 
+    int sum = nums[0];
+    int max_sum = nums[0];
+    for (int i = 1; i &lt; n; i++) &#123;
+        if (abs(nums[i] % 2) == abs(nums[i - 1] % 2))
+            sum = nums[i];
+        else
+            sum = max(nums[i], sum + nums[i]);
+            
+        max_sum = max(max_sum, sum);
+    &#125;
+ 
+    cout &lt;&lt; max_sum &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<p>Kadane’s Algorithm Solution:</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+    
+    vector&lt;int&gt; nums(n);
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; nums[i];
+    &#125;
+ 
+    int sum = nums[0];
+    int max_sum = nums[0];
+    for (int i = 1; i &lt; n; i++) &#123;
+        if (abs(nums[i] % 2) == abs(nums[i - 1] % 2))
+            sum = nums[i];
+        else
+            sum = max(nums[i], sum + nums[i]);
+
+        max_sum = max(max_sum, sum);
+    &#125;
+ 
+    cout &lt;&lt; max_sum &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="Fair-and-Square"><a href="#Fair-and-Square" class="headerlink" title="Fair and Square"></a>Fair and Square</h3><p>Original Codeforces Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2241/problem/E">https://codeforces.com/contest/2241/problem/E</a></p>
+<p>Straightforward Solution:</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+const int N = 1e6;
+vector&lt;int&gt; adj[N];
+int parent[N];
+int visited[N];
+ll subtree_size[N];
+ 
+ 
+ll fill_size(int u) &#123;
+    if (visited[u]) 
+        return 0;
+    else
+        visited[u] = true;
+ 
+    ll sum = 1;
+    for (auto v: adj[u]) &#123;
+        if (visited[v]) continue;
+ 
+        parent[v] = u;
+        sum += fill_size(v);
+    &#125;
+    
+    subtree_size[u] = sum;
+    return sum;
+&#125;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+    
+    for (int i = 0; i &lt; n; i++) &#123;
+        adj[i].clear();
+        parent[i] = -1;
+        visited[i] = false;
+        subtree_size[i] = 0;
+    &#125;
+ 
+    vector&lt;ll&gt; node_num(n);
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; node_num[i];
+    &#125;
+ 
+    int a, b;
+    for (int i = 0; i &lt; n - 1; i++) &#123;
+        cin &gt;&gt; a &gt;&gt; b;
+        adj[a - 1].push_back(b - 1);
+        adj[b - 1].push_back(a - 1);
+    &#125;
+ 
+    fill_size(0);
+ 
+    ll sum = 0, pairs = 0, triplets = 0, total_sum = 0;
+    for (int i = 0; i &lt; n; i++) &#123;
+        if ((ll) sqrtl(node_num[i]) * (ll) sqrtl(node_num[i]) == node_num[i]) &#123;
+            sum = subtree_size[0] - subtree_size[i];
+            pairs = 0, triplets = 0;
+            
+            for (auto v : adj[i]) &#123;
+                if (parent[i] == v) continue;
+ 
+                triplets += subtree_size[v] * pairs;
+                pairs += subtree_size[v] * sum;
+                sum += subtree_size[v];
+            &#125;
+            
+            total_sum += pairs + triplets;
+        &#125;
+    &#125;
+ 
+    cout &lt;&lt; total_sum &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<p>Simplified Solution:</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+const int N = 1e6;
+vector&lt;int&gt; adj[N];
+int visited[N];
+ll node_num[N];
+ll subtree_size[N];
+ll total_sum;
+ 
+ll dfs(int n, int u) &#123;
+    if (visited[u]) 
+        return 0;
+    else
+        visited[u] = true;
+ 
+    subtree_size[u] = 1;
+ 
+    bool is_square = (ll) sqrt(node_num[u]) * (ll) sqrt(node_num[u]) == node_num[u];
+    ll sze = 0, sum = 0, pairs = 0, triplets = 0;
+    for (auto v: adj[u]) &#123;
+        if (visited[v]) continue;
+ 
+        sze = dfs(n, v);
+        subtree_size[u] += sze;
+ 
+        if (is_square) &#123;
+            triplets += sze * pairs;
+            pairs += sze * sum;
+            sum += sze;
+        &#125;
+    &#125;
+ 
+    if (is_square) &#123;
+        triplets += (n - subtree_size[u]) * pairs;
+        pairs += (n - subtree_size[u]) * sum;
+    &#125;
+                 
+    total_sum += pairs + triplets;
+    
+    return subtree_size[u];
+&#125;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+    
+    for (int i = 0; i &lt; n; i++) &#123;
+        adj[i].clear();
+        visited[i] = false;
+        node_num[i] = 0;
+        subtree_size[i] = 0;
+    &#125;
+ 
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; node_num[i];
+    &#125;
+ 
+    int a, b;
+    for (int i = 0; i &lt; n - 1; i++) &#123;
+        cin &gt;&gt; a &gt;&gt; b;
+        adj[a - 1].push_back(b - 1);
+        adj[b - 1].push_back(a - 1);
+    &#125;
+ 
+    total_sum = 0;
+    dfs(n, 0);
+ 
+    cout &lt;&lt; total_sum &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+
+</div>
+	</div>
+</body>
+
+</html>
