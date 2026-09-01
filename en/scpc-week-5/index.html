@@ -155,13 +155,16 @@ void solve() &#123;
  
     int sum = nums[0];
     int max_sum = nums[0];
+    int min_sum = min(0, nums[0]);
     for (int i = 1; i &lt; n; i++) &#123;
-        if (abs(nums[i] % 2) == abs(nums[i - 1] % 2))
-            sum = nums[i];
-        else
-            sum = max(nums[i], sum + nums[i]);
-            
-        max_sum = max(max_sum, sum);
+        if (abs(nums[i] % 2) == abs(nums[i - 1] % 2)) &#123;
+            sum = 0;
+            min_sum = 0;
+        &#125;
+ 
+        sum += nums[i];
+        max_sum = max(max_sum, sum - min_sum);
+        min_sum = min(min_sum, sum);
     &#125;
  
     cout &lt;&lt; max_sum &lt;&lt; endl;
@@ -194,10 +197,9 @@ void solve() &#123;
     int max_sum = nums[0];
     for (int i = 1; i &lt; n; i++) &#123;
         if (abs(nums[i] % 2) == abs(nums[i - 1] % 2))
-            sum = nums[i];
-        else
-            sum = max(nums[i], sum + nums[i]);
-
+            sum = 0;
+            
+        sum = max(nums[i], sum + nums[i]);
         max_sum = max(max_sum, sum);
     &#125;
  
