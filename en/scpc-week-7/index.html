@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	<title>kiwirafe.blog</title>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+	<div class="head-nav">
+	<div class="inner">
+		<a href="/">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="SCPC-Week-7-Tutorial"><a href="#SCPC-Week-7-Tutorial" class="headerlink" title="SCPC Week 7 Tutorial"></a>SCPC Week 7 Tutorial</h1><h3 id="The-67th-6-7-Integer-Problem"><a href="#The-67th-6-7-Integer-Problem" class="headerlink" title="The 67th 6-7 Integer Problem"></a>The 67th 6-7 Integer Problem</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2218/problem/B">https://codeforces.com/contest/2218/problem/B</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int num;
+    int sum_num = 0;
+    int max_num = INT_MIN;
+    for (int i = 0; i &lt; 7; i++) &#123;
+        cin &gt;&gt; num;
+        sum_num += num;
+        max_num = max(max_num, num);
+    &#125;
+ 
+    cout &lt;&lt; 2 * max_num - sum_num &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="Angry-Kavya"><a href="#Angry-Kavya" class="headerlink" title="Angry Kavya"></a>Angry Kavya</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/1992/problem/B">https://codeforces.com/contest/1992/problem/B</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n, k;
+    cin &gt;&gt; n &gt;&gt; k;
+    
+    ll num;
+    ll ans = 0;
+    ll max_num = 0;
+    for (int i = 0; i &lt; k; i++) &#123;
+        cin &gt;&gt; num;
+        if (num &gt; 1)
+            ans += 2 * (num - 1);
+
+        max_num = max(max_num, num);
+    &#125;
+ 
+    cout &lt;&lt; ans - 2 * (max_num - 1) + (k - 1) &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="RemovevomeR"><a href="#RemovevomeR" class="headerlink" title="RemovevomeR"></a>RemovevomeR</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2241/problem/C">https://codeforces.com/contest/2241/problem/C</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+    string s;
+    cin &gt;&gt; s;
+ 
+    char last = s[0];
+    int components = 1;
+    for (int i = 1; i &lt; n; i++) &#123;
+        if (s[i] != last) &#123;
+            last = s[i];
+            components += 1;
+        &#125;
+    &#125;
+    
+    if (components != 2)
+        cout &lt;&lt; 1 &lt;&lt; endl;
+    else
+        cout &lt;&lt; 2 &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="The-Hedgehog’s-Dilemma"><a href="#The-Hedgehog’s-Dilemma" class="headerlink" title="The Hedgehog’s Dilemma"></a>The Hedgehog’s Dilemma</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/2218/problem/D">https://codeforces.com/contest/2218/problem/D</a></p>
+<p>Prefix Sum Solution:</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n;
+    cin &gt;&gt; n;
+ 
+    ll num = 1;
+    for (int i = 0; i &lt; n; i++) &#123;
+        cout &lt;&lt; num * (num + 2) &lt;&lt; &#39; &#39;;
+        num += 2;
+    &#125;
+ 
+    cout &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    int t; 
+    cin &gt;&gt; t;
+    while (t--) solve();
+&#125;
+</code></pre>
+<h3 id="Cinnamon-the-Cat"><a href="#Cinnamon-the-Cat" class="headerlink" title="Cinnamon the Cat"></a>Cinnamon the Cat</h3><p>Original Problem (Adapted from NZOI Training Site)</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n; cin &gt;&gt; n;
+ 
+    int sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum;
+    int a = 0, b = 0, c = 0;
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; c;
+        sum = max(&#123;sum1 + a + b + c, sum2 + b + c, sum3 + c, sum4&#125;);
+        a = b, b = c;
+        sum1 = sum2, sum2 = sum3, sum3 = sum4, sum4 = sum;
+    &#125;
+ 
+    cout &lt;&lt; sum &lt;&lt; endl;
+    
+&#125;
+ 
+int main() &#123;
+    solve();
+ 
+    return 0;
+&#125;
+</code></pre>
+
+</div>
+	</div>
+</body>
+
+</html>
