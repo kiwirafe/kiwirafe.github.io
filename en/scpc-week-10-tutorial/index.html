@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	<title>kiwirafe.blog</title>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+	<div class="head-nav">
+	<div class="inner">
+		<a href="/">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="SCPC-Week-10-Tutorial-Intro-to-Graphs"><a href="#SCPC-Week-10-Tutorial-Intro-to-Graphs" class="headerlink" title="SCPC Week 10 Tutorial: Intro to Graphs"></a>SCPC Week 10 Tutorial: Intro to Graphs</h1><h2 id="Graph-Fundamentals"><a href="#Graph-Fundamentals" class="headerlink" title="Graph Fundamentals"></a>Graph Fundamentals</h2><h3 id="What-is-a-graph"><a href="#What-is-a-graph" class="headerlink" title="What is a graph?"></a>What is a graph?</h3><p>Graphs are used to model objects and their connections. E.g.:</p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Social networks</td>
+<td>Instagram, Facebook, etc.</td>
+</tr>
+<tr>
+<td>Transportation networks</td>
+<td>Train maps, flight networks</td>
+</tr>
+<tr>
+<td>Computer networks</td>
+<td>The Internet, electrical circuits</td>
+</tr>
+</tbody></table>
+<h3 id="Where-do-graph-problems-come-from"><a href="#Where-do-graph-problems-come-from" class="headerlink" title="Where do graph problems come from?"></a>Where do graph problems come from?</h3><table>
+<thead>
+<tr>
+<th>Objects</th>
+<th>Connections</th>
+<th>Example problem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>People</td>
+<td>Friendships</td>
+<td>Can person A reach person B?</td>
+</tr>
+<tr>
+<td>Rooms</td>
+<td>Doors</td>
+<td>Is there a way out of the building?</td>
+</tr>
+<tr>
+<td>Grid cells</td>
+<td>Legal moves</td>
+<td>What is the fewest number of steps?</td>
+</tr>
+</tbody></table>
+<p><strong>If the problem involves objects and connections, try drawing a graph.</strong></p>
+<h3 id="Vertices-and-edges"><a href="#Vertices-and-edges" class="headerlink" title="Vertices and edges"></a>Vertices and edges</h3><p>A graph $G &#x3D; (V, E)$ is a set of vertices and edges between them.</p>
+<ul>
+<li><strong>Undirected:</strong> <code>A — B</code>. An edge goes from A to B and from B to A.</li>
+<li><strong>Directed:</strong> <code>A → B</code>. An edge goes from A to B.</li>
+</ul>
+<h3 id="Paths-cycles-and-connected-components"><a href="#Paths-cycles-and-connected-components" class="headerlink" title="Paths, cycles, and connected components"></a>Paths, cycles, and connected components</h3><ul>
+<li><strong>Path:</strong> <code>A → B → C</code>. A sequence of connected vertices.</li>
+<li><strong>Cycle:</strong> <code>A → B → C → A</code>. A path that returns to its start.</li>
+<li><strong>Connected component:</strong> one connected group, with no path to a different group. For example, in a graph with edges <code>A—B</code> and <code>C—D</code>, <code>&#123;A, B&#125;</code> and <code>&#123;C, D&#125;</code> are separate components.</li>
+</ul>
+<h3 id="Reading-a-graph"><a href="#Reading-a-graph" class="headerlink" title="Reading a graph"></a>Reading a graph</h3><p>Transform the problem input into a graph and an adjacency list.</p>
+<p><strong>Example input (1-based):</strong></p>
+<pre><code class="text">4 4
+1 2
+1 4
+2 3
+2 4
+</code></pre>
+<p>The first line gives the number of vertices and edges. The remaining lines give the edges.</p>
+<p><strong>Edges:</strong> <code>1—2</code>, <code>1—4</code>, <code>2—3</code>, <code>2—4</code>.</p>
+<p><strong>Neighbours (1-based):</strong></p>
+<pre><code class="text">1: [2, 4]
+2: [1, 3, 4]
+3: [2]
+4: [1, 2]
+</code></pre>
+<p>Undirected edges appear in the lists of both endpoint vertices.</p>
+<h3 id="Building-an-adjacency-list"><a href="#Building-an-adjacency-list" class="headerlink" title="Building an adjacency list"></a>Building an adjacency list</h3><p>Both snippets read an undirected graph with input vertices labelled <code>1</code> through <code>n</code> and store vertices with zero-based indexing.</p>
+<p><strong>C++</strong></p>
+<pre><code class="cpp">int n, m;
+cin &gt;&gt; n &gt;&gt; m;
+vector&lt;vector&lt;int&gt;&gt; adj(n);
+
+for (int i = 0; i &lt; m; i++) &#123;
+    int u, v;
+    cin &gt;&gt; u &gt;&gt; v;
+    adj[u - 1].push_back(v - 1);
+    adj[v - 1].push_back(u - 1);
+&#125;
+</code></pre>
+<p><strong>Python</strong></p>
+<pre><code class="python">n, m = map(int, input().split())
+adj = [[] for _ in range(n)]
+
+for _ in range(m):
+    u, v = map(int, input().split())
+    adj[u - 1].append(v - 1)
+    adj[v - 1].append(u - 1)
+</code></pre>
+<p>Remove the second <code>push_back</code> &#x2F; <code>append</code> for a directed edge.</p>
+<h3 id="Why-use-adjacency-lists"><a href="#Why-use-adjacency-lists" class="headerlink" title="Why use adjacency lists?"></a>Why use adjacency lists?</h3><table>
+<thead>
+<tr>
+<th>Representation</th>
+<th>Space</th>
+<th>Full traversal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Adjacency list</td>
+<td>$O(n + m)$</td>
+<td>$O(n + m)$</td>
+</tr>
+<tr>
+<td>Adjacency matrix</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+</tr>
+</tbody></table>
+<p>Here, <code>n</code> is the number of vertices and <code>m</code> is the number of edges.<br>For most beginner contest problems, start with an adjacency list.</p>
+<h2 id="Graph-Traversal"><a href="#Graph-Traversal" class="headerlink" title="Graph Traversal"></a>Graph Traversal</h2><h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><h4 id="Depth-First-Search-DFS"><a href="#Depth-First-Search-DFS" class="headerlink" title="Depth First Search (DFS)"></a>Depth First Search (DFS)</h4><p>The core idea of DFS is to keep moving to an unvisited neighbour. If all neighbours have been visited, return to the previous node (backtrack).</p>
+<p>Example tree:</p>
+<pre><code class="text">       0
+      / \
+     1   2
+    / \   \
+   3   4   5
+</code></pre>
+<p>A possible DFS order (visiting neighbours in the illustrated order):<br><code>0 → 1 → 3 → 4 → 2 → 5</code></p>
+<h4 id="Tracing-DFS-by-hand"><a href="#Tracing-DFS-by-hand" class="headerlink" title="Tracing DFS by hand"></a>Tracing DFS by hand</h4><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Node</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>Start at the root</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>Go to the first child</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>Go deeper again</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>Backtrack to 1, then take the next child</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>Backtrack to 0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>Visit the remaining subtree</td>
+</tr>
+</tbody></table>
+<p>When a node has no unvisited child, recursion returns.</p>
+<h4 id="DFS-in-Python-recursive"><a href="#DFS-in-Python-recursive" class="headerlink" title="DFS in Python (recursive)"></a>DFS in Python (recursive)</h4><pre><code class="python">def dfs(s):
+    if visited[s]:
+        return
+    visited[s] = True
+    print(s)          # process s
+    for u in adj[s]:
+        dfs(u)
+</code></pre>
+<h4 id="DFS-in-Python-iterative"><a href="#DFS-in-Python-iterative" class="headerlink" title="DFS in Python (iterative)"></a>DFS in Python (iterative)</h4><pre><code class="python">def dfs(start):
+    stack = [start]
+
+    while stack:
+        s = stack.pop()
+        if visited[s]:
+            continue
+        visited[s] = True
+        print(s)  # process s
+
+        for u in reversed(adj[s]):
+            if not visited[u]:
+                stack.append(u)
+</code></pre>
+<h4 id="DFS-in-C"><a href="#DFS-in-C" class="headerlink" title="DFS in C++"></a>DFS in C++</h4><pre><code class="cpp">void dfs(int s) &#123;
+    if (visited[s])
+        return;
+    visited[s] = true;
+    cout &lt;&lt; s &lt;&lt; endl; // Process node s
+    for (auto u: adj[s])
+        dfs(u);
+&#125;
+</code></pre>
+<h4 id="Complete-DFS-example-in-Python"><a href="#Complete-DFS-example-in-Python" class="headerlink" title="Complete DFS example in Python"></a>Complete DFS example in Python</h4><pre><code class="python">n, m = map(int, input().split())
+adj = [[] for _ in range(n)]
+
+for _ in range(m):
+    u, v = map(int, input().split())
+
+    adj[u - 1].append(v - 1)
+    adj[v - 1].append(u - 1)
+
+visited = [False] * n
+
+def dfs(start):
+    stack = [start]
+    order = []
+    while stack:
+        s = stack.pop()
+        if visited[s]:
+            continue
+        visited[s] = True
+        order.append(s)
+        for u in reversed(adj[s]):
+            if not visited[u]:
+                stack.append(u)
+    return order
+
+for v in dfs(0):
+    print(v + 1, end=&quot; &quot;)
+</code></pre>
+<p><strong>Sample:</strong> <code>n = 6</code>, edges <code>1-2, 1-3, 2-4, 2-5, 3-6</code> → output <code>1 2 4 5 3 6</code>.</p>
+<h4 id="Complete-DFS-example-in-C"><a href="#Complete-DFS-example-in-C" class="headerlink" title="Complete DFS example in C++"></a>Complete DFS example in C++</h4><pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+vector&lt;vector&lt;int&gt;&gt; adj;
+vector&lt;int&gt; visited, order;
+
+void dfs(int s) &#123;
+    if (visited[s]) 
+        return;
+
+    visited[s] = 1;
+    order.push_back(s);
+    for (int u : adj[s])
+        dfs(u);
+&#125;
+
+int main() &#123;
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    adj.resize(n);
+    visited.assign(n, 0);
+    for (int i = 0; i &lt; m; ++i) &#123;
+        int u, v;
+        cin &gt;&gt; u &gt;&gt; v;
+
+        adj[u - 1].push_back(v - 1);
+        adj[v - 1].push_back(u - 1);
+    &#125;
+    dfs(0);
+    for (int u : order)
+        cout &lt;&lt; u + 1 &lt;&lt; &#39; &#39;;
+    cout &lt;&lt; &#39;\n&#39;;
+&#125;
+</code></pre>
+<p><strong>Sample:</strong> <code>n = 6</code>, edges <code>1-2, 1-3, 2-4, 2-5, 3-6</code> → output <code>1 2 4 5 3 6</code>.</p>
+<h4 id="Counting-connected-components"><a href="#Counting-connected-components" class="headerlink" title="Counting connected components"></a>Counting connected components</h4><p>Run DFS once from every vertex that has not been visited.</p>
+<p><strong>Python</strong></p>
+<pre><code class="python">visited = [False] * n
+components = 0
+for v in range(n):
+    if not visited[v]:
+        dfs(v)
+        components += 1
+print(components)
+</code></pre>
+<h4 id="Important-things-to-remember-for-DFS"><a href="#Important-things-to-remember-for-DFS" class="headerlink" title="Important things to remember for DFS"></a>Important things to remember for DFS</h4><ol>
+<li><strong>Mark as visited before the recursive calls.</strong> Otherwise a cycle can send you round forever.</li>
+<li><strong>Restart DFS for disconnected graphs.</strong> One call only reaches nodes connected to its start.</li>
+</ol>
+<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><h4 id="BFS-explores-layer-by-layer"><a href="#BFS-explores-layer-by-layer" class="headerlink" title="BFS explores layer by layer"></a>BFS explores layer by layer</h4><p>Visit all nodes one edge away for the current node before moving to the next layer.</p>
+<p>Example tree:</p>
+<pre><code class="text">       0
+      / \
+     1   2
+    / \   \
+   3   4   5
+</code></pre>
+<p><strong>BFS visit order:</strong> <code>0 → 1 → 2 → 3 → 4 → 5</code>.<br>The core idea of BFS is to explore layer by layer, visiting all nodes in the current layer before moving on to the next.</p>
+<h4 id="What-is-happening-inside-the-queue"><a href="#What-is-happening-inside-the-queue" class="headerlink" title="What is happening inside the queue?"></a>What is happening inside the queue?</h4><p>Example: BFS from <code>0</code>, with neighbours considered in ascending order.</p>
+<table>
+<thead>
+<tr>
+<th>Pop</th>
+<th>Queue afterwards</th>
+<th>New nodes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Start</td>
+<td><code>[0]</code></td>
+<td><code>dist[0] = 0</code></td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td><code>[1, 2]</code></td>
+<td><code>1</code> and <code>2</code></td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>[2, 3, 4]</code></td>
+<td><code>3</code> and <code>4</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>[3, 4, 5]</code></td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>[4, 5]</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td><code>[5]</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td><code>[]</code></td>
+<td>Completed</td>
+</tr>
+</tbody></table>
+<p><strong>Queue rule:</strong> First in, first out.</p>
+<h4 id="BFS-in-Python"><a href="#BFS-in-Python" class="headerlink" title="BFS in Python"></a>BFS in Python</h4><p>Use <code>collections.deque</code> for an efficient queue.</p>
+<pre><code class="python">from collections import deque
+
+def bfs(start):
+    q = deque([start])
+    visited[start] = True
+    dist[start] = 0
+    while q:
+        s = q.popleft()
+        print(s)
+        for u in adj[s]:
+            if visited[u]:
+                continue
+            visited[u] = True
+            dist[u] = dist[s] + 1
+            q.append(u)
+</code></pre>
+<h4 id="BFS-in-C"><a href="#BFS-in-C" class="headerlink" title="BFS in C++"></a>BFS in C++</h4><pre><code class="cpp">void bfs(int x) &#123;
+    visited[x] = true;
+    dist[x] = 0;
+    queue&lt;int&gt; q;
+    q.push(x);
+    while (!q.empty()) &#123;
+        int s = q.front();
+        q.pop();
+        cout &lt;&lt; s &lt;&lt; endl; // Process node s
+        for (auto u : adj[s]) &#123;
+            if (visited[u])
+                continue;
+            visited[u] = true;
+            dist[u] = dist[s] + 1;
+            q.push(u);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="Complete-BFS-example-in-Python"><a href="#Complete-BFS-example-in-Python" class="headerlink" title="Complete BFS example in Python"></a>Complete BFS example in Python</h4><pre><code class="python">from collections import deque
+
+n, m = map(int, input().split())
+adj = [[] for _ in range(n)]
+for _ in range(m):
+    u, v = map(int, input().split())
+    adj[u - 1].append(v - 1)
+    adj[v - 1].append(u - 1)
+
+visited = [False] * n
+dist = [-1] * n
+
+def bfs(start):
+    q = deque([start])
+    visited[start] = True
+    dist[start] = 0
+    order = []
+    while q:
+        s = q.popleft()
+        order.append(s)
+        for u in adj[s]:
+            if visited[u]:
+                continue
+            visited[u] = True
+            dist[u] = dist[s] + 1
+            q.append(u)
+    return order
+
+for v in bfs(0):
+    print(v + 1, end=&quot; &quot;)
+</code></pre>
+<p><strong>Sample:</strong> <code>n = 6</code>, edges <code>1-2, 1-3, 2-4, 2-5, 3-6</code> → output <code>1 2 3 4 5 6</code>.</p>
+<h4 id="Complete-BFS-example-in-C"><a href="#Complete-BFS-example-in-C" class="headerlink" title="Complete BFS example in C++"></a>Complete BFS example in C++</h4><pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+vector&lt;vector&lt;int&gt;&gt; adj;
+vector&lt;int&gt; visited, dist, order;
+
+void bfs(int start) &#123;
+    queue&lt;int&gt; q; q.push(start);
+    visited[start] = 1; dist[start] = 0;
+    while (!q.empty()) &#123;
+        int s = q.front(); q.pop();
+        order.push_back(s);
+        for (int u : adj[s]) &#123;
+            if (visited[u]) continue;
+            visited[u] = 1;
+            dist[u] = dist[s] + 1;
+            q.push(u);
+        &#125;
+    &#125;
+&#125;
+
+int main() &#123;
+    int n, m; cin &gt;&gt; n &gt;&gt; m;
+    adj.resize(n);
+    visited.assign(n, 0);
+    dist.assign(n, -1);
+    for (int i = 0; i &lt; m; ++i) &#123;
+        int u, v; 
+        cin &gt;&gt; u &gt;&gt; v;
+        adj[u - 1].push_back(v - 1);
+        adj[v - 1].push_back(u - 1);
+    &#125;
+    bfs(0);
+    for (int u : order)
+        cout &lt;&lt; u + 1 &lt;&lt; &#39; &#39;;
+    cout &lt;&lt; &#39;\n&#39;;
+&#125;
+</code></pre>
+<p><strong>Sample:</strong> <code>n = 6</code>, edges <code>1-2, 1-3, 2-4, 2-5, 3-6</code> → output <code>1 2 3 4 5 6</code>.</p>
+<h4 id="Why-BFS-finds-a-shortest-path"><a href="#Why-BFS-finds-a-shortest-path" class="headerlink" title="Why BFS finds a shortest path"></a>Why BFS finds a shortest path</h4><p>In an unweighted graph, the shortest path means the fewest edges.</p>
+<p><strong>Target node:</strong> Suppose we want the shortest path from <code>0</code> to <code>5</code> in the illustrated tree.<br><strong>BFS result:</strong> <code>dist[5] = 2</code>, so the path length is <strong>2 edges</strong>.</p>
+<p>BFS visits nodes in increasing distance from the source (layer by layer). Hence, the first time we visit <code>5</code> we are guaranteed to have the minimum number of edges.</p>
+<h4 id="How-do-we-print-the-path-itself"><a href="#How-do-we-print-the-path-itself" class="headerlink" title="How do we print the path itself?"></a>How do we print the path itself?</h4><p>A <strong>parent array</strong> lets us reconstruct the route.</p>
+<p><strong>Add this when discovering a neighbour (C++ syntax):</strong></p>
+<pre><code class="cpp">parent[u] = s;   // store where u came from
+</code></pre>
+<p><strong>Example parent array:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Parent</td>
+<td>-1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p><strong>Reconstructing <code>0 → 5</code>:</strong></p>
+<ul>
+<li>Start at <code>5</code>.</li>
+<li><code>parent[5] = 2</code></li>
+<li><code>parent[2] = 0</code></li>
+<li><code>parent[0] = -1</code></li>
+</ul>
+<p>So we read <code>5 → 2 → 0</code>, then reverse it.</p>
+<p><strong>Final path:</strong> <code>0 → 2 → 5</code>.</p>
+<h2 id="Applying-Graph-Traversals"><a href="#Applying-Graph-Traversals" class="headerlink" title="Applying Graph Traversals"></a>Applying Graph Traversals</h2><h3 id="DFS-or-BFS"><a href="#DFS-or-BFS" class="headerlink" title="DFS or BFS?"></a>DFS or BFS?</h3><p>Both take $O(n + m)$ time with adjacency lists.</p>
+<table>
+<thead>
+<tr>
+<th>If you need to…</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Check whether <code>t</code> is reachable from <code>s</code></td>
+<td>Both</td>
+</tr>
+<tr>
+<td>Count components in an undirected graph</td>
+<td>Both</td>
+</tr>
+<tr>
+<td>Find a shortest path in an unweighted graph</td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>Explore a recursive path of the graph</td>
+<td>DFS</td>
+</tr>
+</tbody></table>
+<h3 id="A-grid-is-also-a-graph"><a href="#A-grid-is-also-a-graph" class="headerlink" title="A grid is also a graph"></a>A grid is also a graph</h3><p>Each open cell is a node. Moving up, down, left, or right creates edges.</p>
+<p>Illustrative grid from the slide (<code>S</code> &#x3D; start, <code>T</code> &#x3D; target, <code>#</code> &#x3D; blocked):</p>
+<pre><code class="text">S . # .
+. . # .
+# . # .
+. . . T
+</code></pre>
+<p><strong>Generating neighbours:</strong></p>
+<pre><code class="python">for dr, dc in [(1,0), (-1,0),
+               (0,1), (0,-1)]:
+    nr, nc = r + dr, c + dc
+    if 0 &lt;= nr &lt; H and 0 &lt;= nc &lt; W:
+        if grid[nr][nc] != &quot;#&quot;:
+            # visit and enqueue (nr, nc)
+</code></pre>
+<p>Apply <strong>BFS</strong> to find the fewest moves, or <strong>DFS</strong> to test reachability.</p>
+<h3 id="Common-mistakes"><a href="#Common-mistakes" class="headerlink" title="Common mistakes"></a>Common mistakes</h3><p>Most graph wrong answers are implementation details.</p>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Directed vs undirected</td>
+<td>Should you add 1 edge or 2 edges?</td>
+</tr>
+<tr>
+<td>1-based vs 0-based</td>
+<td>Are the vertices in the input data 1-based or 0-based?</td>
+</tr>
+<tr>
+<td>Visited at discovery</td>
+<td>In BFS, mark visited when pushing into the queue.</td>
+</tr>
+<tr>
+<td>Wrong shortest-path algorithm</td>
+<td>BFS only works on unweighted edges! Weighted edges needs something else…</td>
+</tr>
+<tr>
+<td>Disconnected nodes</td>
+<td>Do you need to do a traversal starting from every node?</td>
+</tr>
+</tbody></table>
+<hr>
+<p>Concepts adapted from COMP2823 Week 7 - Graphs (Julian Mestre).</p>
+
+</div>
+	</div>
+</body>
+
+</html>

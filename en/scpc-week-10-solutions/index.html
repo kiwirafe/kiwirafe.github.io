@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+	
+	
+<link rel="stylesheet" href="/css/style.css">
+
+	<title>kiwirafe.blog</title>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+	<div class="head-nav">
+	<div class="inner">
+		<a href="/">
+			kiwirafe.blog
+		</a>
+		<div class="right">
+			
+				<a href="/">Home</a>
+				<a href="/archives">Archive</a>
+				<a href="/zh">中文站</a>
+			
+		</div>
+	</div>
+</div>
+	<div class="main">
+		<div class="post">
+	<h1 id="SCPC-Week-10-Solutions"><a href="#SCPC-Week-10-Solutions" class="headerlink" title="SCPC Week 10 Solutions"></a>SCPC Week 10 Solutions</h1><h3 id="Late-to-SCPC"><a href="#Late-to-SCPC" class="headerlink" title="Late to SCPC"></a>Late to SCPC</h3><p>Original Problem</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+const int N = 1000000;
+vector&lt;int&gt; adj[N];
+int dis[N];
+bool vis[N];
+ 
+void bfs(int x) &#123;
+    vis[x] = true;
+    dis[x] = 0;
+    queue&lt;int&gt; q;
+    q.push(x);
+    while (!q.empty()) &#123;
+        int s = q.front(); q.pop();
+ 
+        for (auto u : adj[s]) &#123;
+            if (vis[u]) 
+                continue;
+            vis[u] = true;
+            dis[u] = dis[s] + 1;
+            q.push(u);
+        &#125;
+    &#125;
+&#125;
+ 
+void solve() &#123;
+    int n, m, s, t;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; s &gt;&gt; t;
+ 
+    for (int i = 0; i &lt; n; i++) &#123;
+        vis[i] = false;
+        dis[i] = -1;
+    &#125;
+ 
+    int u, v;
+    for (int i = 0; i &lt; m; i++) &#123;
+        cin &gt;&gt; u &gt;&gt; v;
+        adj[u - 1].push_back(v - 1);
+        adj[v - 1].push_back(u - 1);
+    &#125;
+ 
+    bfs(s - 1);
+    cout &lt;&lt; dis[t - 1] &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    solve();
+&#125;
+</code></pre>
+<h3 id="Love-Triangle"><a href="#Love-Triangle" class="headerlink" title="Love Triangle"></a>Love Triangle</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/939/problem/A">https://codeforces.com/contest/939/problem/A</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+void solve() &#123;
+    int n; cin &gt;&gt; n;
+ 
+    int num;
+    vector&lt;int&gt; nums(n);
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; num;
+        nums[i] = num - 1;
+    &#125;
+ 
+    for (int i = 0; i &lt; n; i++) &#123;
+        if (nums[nums[nums[i]]] == i) &#123;
+            cout &lt;&lt; &quot;YES&quot; &lt;&lt; endl;
+            return;
+        &#125;
+    &#125;
+ 
+    cout &lt;&lt; &quot;NO&quot; &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    solve();
+&#125;
+</code></pre>
+<h3 id="Party"><a href="#Party" class="headerlink" title="Party"></a>Party</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/115/problem/A">https://codeforces.com/contest/115/problem/A</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+const int N = 10000;
+vector&lt;int&gt; adj[N];
+int vis[N];
+int max_dis = 0;
+ 
+void dfs(int s, int dis) &#123;
+    if (vis[s]) return;
+    vis[s] = true;
+ 
+    max_dis = max(max_dis, dis);
+    for (auto u: adj[s])
+        dfs(u, dis + 1);
+&#125;
+ 
+void solve() &#123;
+    int n; cin &gt;&gt; n;
+ 
+    int num;
+    vector&lt;int&gt; roots;
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; num;
+ 
+        if (num != -1)
+            adj[num - 1].push_back(i);
+        else
+            roots.push_back(i);
+    &#125;
+ 
+    for (int node : roots)
+        dfs(node, 1);
+ 
+    cout &lt;&lt; max_dis &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    solve();
+&#125;
+</code></pre>
+<h3 id="Ice-Skating"><a href="#Ice-Skating" class="headerlink" title="Ice Skating"></a>Ice Skating</h3><p>Original Problem Link: <a target="_blank" rel="noopener" href="https://codeforces.com/contest/217/problem/A">https://codeforces.com/contest/217/problem/A</a></p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ 
+#define endl &#39;\n&#39;
+typedef long long ll;
+ 
+const int N = 10000;
+vector&lt;int&gt; adj[N];
+int vis[N];
+int max_dis = 0;
+ 
+void dfs(int s) &#123;
+    if (vis[s]) return;
+    vis[s] = true;
+ 
+    for (auto u: adj[s])
+        dfs(u);
+&#125;
+ 
+void solve() &#123;
+    int n; cin &gt;&gt; n;
+ 
+    vector&lt;int&gt; xs(n);
+    vector&lt;int&gt; ys(n);
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; xs[i] &gt;&gt; ys[i];
+    &#125;
+ 
+    for (int i = 0; i &lt; n; i++) &#123;
+        for (int j = i + 1; j &lt; n; j++) &#123;
+            if (xs[i] == xs[j] or ys[i] == ys[j]) &#123;
+                adj[i].push_back(j);
+                adj[j].push_back(i);
+            &#125;
+        &#125;
+    &#125;
+ 
+    int comps = 0;
+    for (int i = 0; i &lt; n; i++) &#123;
+        if (!vis[i]) &#123;
+            comps += 1;
+            dfs(i);
+        &#125;
+    &#125;
+    cout &lt;&lt; comps - 1 &lt;&lt; endl;
+&#125;
+ 
+int main() &#123;
+    ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+    solve();
+&#125;
+</code></pre>
+<h3 id="Enshadowed"><a href="#Enshadowed" class="headerlink" title="Enshadowed"></a>Enshadowed</h3><p>Original Problem (Adapted from NZOI Training Site)</p>
+<p>Tutorial: <a href="https://kiwirafe.github.io/en/nzic2023-round3-tutorial-3/">https://kiwirafe.github.io/en/nzic2023-round3-tutorial-3/</a></p>
+<p>Solution:</p>
+<pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+#define euclid(x1, x2, y1, y2) sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2))
+
+// Dijkstra&#39;s Algorithm
+// Be cautious to use double since the problem can have decimals.
+double dijkstra(int source, int target, vector&lt;pair&lt;int, double&gt;&gt; *adj, int n) &#123;
+    double distance[n];
+    bool processed[n];
+    for(int i = 0; i &lt; n; i++)&#123;
+        distance[i] = INT_MAX;
+        processed[i] = false;
+    &#125;
+
+    priority_queue&lt;pair&lt;double, int&gt;&gt; q;
+    distance[source] = 0;
+    q.push(&#123;0, source&#125;);
+    while(!q.empty()) &#123;
+        int a = q.top().second; q.pop();
+        if(processed[a]) continue;
+        processed[a] = true;
+        for(auto u : adj[a]) &#123;
+            int b = u.first; double w = u.second;
+            if (distance[a] + w &lt; distance[b]) &#123;
+                distance[b] = distance[a] + w;
+                q.push(&#123;-distance[b], b&#125;);
+            &#125;
+        &#125;
+    &#125;
+
+    return distance[target];
+&#125;
+
+int main() &#123;
+    double x1, y1, r1, x2, y2, r2, xq, yq, rq;
+    int N;
+
+    cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;
+    cin &gt;&gt; N;
+
+    vector&lt;tuple&lt;double, double, double&gt;&gt; circles;
+    for (int i = 0; i &lt; N; i++) &#123;
+        cin &gt;&gt; xq &gt;&gt; yq &gt;&gt; rq;
+        circles.push_back(&#123;xq, yq, rq&#125;);
+    &#125;
+
+    // Add the the starting and ending nodes.
+    circles.push_back(&#123;x1, y1, 0&#125;);
+    circles.push_back(&#123;x2, y2, 0&#125;);
+
+    // Calculate the distance between the nodes.
+    vector&lt;pair&lt;int, double&gt;&gt; adj[N + 2];
+    for (int i = 0; i &lt; N + 2; i++) &#123;
+        for (int j = 0; j &lt; N + 2; j++) &#123;
+            tie(x1, y1, r1) = circles[i];
+            tie(x2, y2, r2) = circles[j];
+            // Euclid is defined earlier.
+            adj[i].push_back(&#123;j, max(euclid(x1, x2, y1, y2) - r1 - r2, 0.0)&#125;);
+        &#125;
+    &#125;
+
+    double distance = dijkstra(N, N + 1, adj, N + 2);
+
+    // Return 6dp due to problem requirement.
+    printf(&quot;%.6f\n&quot;, distance);
+    
+&#125;
+</code></pre>
+
+</div>
+	</div>
+</body>
+
+</html>
